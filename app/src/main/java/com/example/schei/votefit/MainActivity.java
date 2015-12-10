@@ -39,10 +39,11 @@ public class MainActivity extends Activity{
         }
     }
 
-    public void setID(String id1){
-        userID = id1;
-        Log.i("setter id", "userId er satt");
+    private void goToVote(){
+        //setContentView(R.layout.activity_vote);
     }
+
+
 
     private class ProcessJSON extends AsyncTask<String, Void, String>{
         private String id;
