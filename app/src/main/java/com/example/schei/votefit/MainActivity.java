@@ -1,52 +1,79 @@
 package com.example.schei.votefit;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os. AsyncTask;
 import android.app.Activity;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import org.json.JSONArray;
+
 import org.json.JSONObject;
 import org.json.JSONException;
-
 
 
 public class MainActivity extends Activity{
     private static String urlString;
     private String userID = null;
-    private ProcessJSON test;
+    private ProcessJSON jsonProcess;
+
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(userID == null) {
-            urlString = "http://5.39.92.119/rms/new.php";
-            //new ProcessJSON().execute(urlString);
-            test = new ProcessJSON();
-            test.execute(urlString);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-            userID = test.getId();
-            Log.i("hei.", "hei");
-            //Log.i("id: ", id.toString());
+        if( preferences.contains("id")) {
+            userID = preferences.getString("id",null);
+            Log.i("containsid",userID);
         }
-        System.out.println("userID er satt til " + userID);
 
-        if (userID != null){
-            Log.i("success", "success");
+        if(userID == null) {
+
+            fetchUserID();
+            /*SharedPreferences.Editor edit = preferences.edit();
+        edit.putString("id", userID);
+        edit.commit();*/
+            //Log.i("coNOTtter fetch",userID);
+
+
+
+
         }
     }
 
-    private void goToVote(){
-        //setContentView(R.layout.activity_vote);
+
+    public void jumpToVote(View view) {
+        Intent intent;
+        intent = new Intent(MainActivity.this, VoteActivity.class);
+        startActivity(intent);
+    }
+
+    private void fetchUserID(){
+        urlString = "http://5.39.92.119/rms/new.php";
+        jsonProcess = new ProcessJSON();
+        jsonProcess.execute(urlString);
+        //System.out.println("userID er satt til " + userID);
+    }
+
+    public void setID ( String id){
+        userID  = id;
+        System.out.println("setIDTest" + userID);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putString("id", userID);
+        edit.apply();
+        //Log.i("coNOTtter fetch",userID);
+
     }
 
 
 
     private class ProcessJSON extends AsyncTask<String, Void, String>{
         private String id;
+
         protected String doInBackground(String... strings){
             String stream = null;
             String urlString = strings[0];
@@ -58,18 +85,8 @@ public class MainActivity extends Activity{
             return stream;
         }
 
+        @Override
         protected void onPostExecute(String stream){
-            TextView name = (TextView) findViewById(R.id.name);
-            //tv.setText(stream);
-
-            /*
-                Important in JSON DATA
-                -------------------------
-                * Square bracket ([) represents a JSON array
-                * Curly bracket ({) represents a JSON object
-                * JSON object contains key/value pairs
-                * Each key is a String and value may be different data types
-             */
 
             //..........Process JSON DATA................
             if(stream !=null){
@@ -77,24 +94,22 @@ public class MainActivity extends Activity{
                     // Get the full HTTP Data as JSONObject
                     JSONObject reader= new JSONObject(stream);
 
-                    // Get the JSONObject "id".......
-                    // ....................
-                    //String id = reader.getString("id");
                     id = reader.getString("id");
-
-                    Log.i("id fra server: ", id);
+                    setID(id);
 
                 }catch(JSONException e){
                     e.printStackTrace();
                 }
-            } // if statement end
-
+            }
+            // if statement end
+                        /*
+                Important in JSON DATA
+                -------------------------
+                * Square bracket ([) represents a JSON array
+                * Curly bracket ({) represents a JSON object
+                * JSON object contains key/value pairs
+                * Each key is a String and value may be different data types
+             */
         } // onPostExecute() end
-
-        public String getId(){
-            System.out.println(id);
-            System.out.println("getID blir kj;rt");
-            return id;
-        }
     } // ProcessJSON class end
 } // Activity end

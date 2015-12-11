@@ -20,7 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="goToVote" />
+        android:onClick="jumpToVote" />
 
     <Button
         android:layout_width="wrap_content"
