@@ -41,25 +41,26 @@ public class VoteActivity extends Activity {
         urlString = "http://5.39.92.119/rms/view.php?id=" + userID;
         jsonProcess = new ProcessJSONa();
         jsonProcess.execute(urlString);
+
         //System.out.println("userID er satt til " + userID);
     }
 
-
-  /*  private void getUserPhoto(){
+/**
+   private void getUserPhoto(){
         urlString = "http://5.39.92.119/rms/pictures/"+userID;
-        jsonProcess = new ProcessJSON();
+        jsonProcess = new ProcessJSONa();
         jsonProcess.execute(urlString);
         //System.out.println("userID er satt til " + userID);
     }
-*/
+**/
 
 
 }
 
-   private class ProcessJSONa extends AsyncTask<String, Void, String> {
+     class ProcessJSONa extends AsyncTask<String, Void, String> {
         private String id;
         private String stringValue;
-        private boolean finished;
+        private String finished;
         List<String> photoUserIdQueue;
 
         protected String doInBackground(String... strings) {
@@ -80,9 +81,15 @@ public class VoteActivity extends Activity {
             if (stream != null) {
                 try {
                     // Get the full HTTP Data as JSONObject
-                    JSONObject reader = new JSONObject(stream);
+                    JSONObject reader = null;
+                    try {
+                        reader = new JSONObject(stream);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     finished = reader.getString("done");
-                    if (finished == true) {
+                    if (finished == "true") {
                         //loadRetrybuttonerrormessaga();
 
                     } else {
@@ -90,13 +97,14 @@ public class VoteActivity extends Activity {
                         for (int i = 0; i < 10; i++) {
                             stringValue = "" + i;
                             photoUserIdQueue.add(i, reader.getString(stringValue));
+                            Log.i("satt id til 7: ",photoUserIdQueue.get(0));
                         }
 
 
                     }
-                    catch(JSONException.e){
-                        e.printStackTrace();
-                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         }
