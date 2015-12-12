@@ -16,6 +16,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Cache;
+import com.android.volley.Network;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONObject;
 import org.json.JSONException;
 
@@ -32,6 +46,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -52,8 +67,47 @@ public class VoteActivity extends Activity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         userID = preferences.getString("id", null);
-        getUserQueue();
-        getPhoto(7);
+        getUserQueue(); //
+        getPhoto(5);
+
+
+        test();
+
+
+    }
+
+
+    private void test () {
+        final String URL = "http://5.39.92.119/rms/viewed?id="+ "5" ;
+
+        // add the request object to the queue to be executed
+        Log.i("aplasdasdasdasd", req.toString());
+        //ApplicationController.getInstance().addToRequestQueue(req);
+        // Post params to be sent to the server
+        HashMap<String, String> params = new HashMap<String, String>();
+        // Just hardcode it to user 6
+        params.put("6", "up");
+        Log.i(" Jeg blir kjport", "sdsad");
+        JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            VolleyLog.v("Response1337:%n %s", response.toString(4));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.e("Erro13367r: ", error.getMessage());
+            }
+        });
+
+
+
+        ApplicationController.getInstance();
 
     }
     private void upVote(String id){
@@ -70,7 +124,7 @@ public class VoteActivity extends Activity {
         getPhoto(1);
 
     }
-
+    // Fetches userID's not seen pictures.
     private void getUserQueue() {
         urlString = "http://5.39.92.119/rms/view.php?id=" + userID;
         jsonProcess = new ProcessJSONa();
@@ -151,6 +205,8 @@ public class VoteActivity extends Activity {
         finished = fin;
     }
 
+
+    // Download image in from web server and display it on ImageView
     private DownloadImageTask getPhoto(int id) {
         urlString = "http://5.39.92.119/rms/pictures/" + id;
         //urlString = "https://s-media-cache-ak0.pinimg.com/736x/14/3b/34/143b34feb80859120ebe4a1f9a676c17.jpg";
@@ -249,7 +305,7 @@ public class VoteActivity extends Activity {
         }
     }
 
-
+    /**
     public class HttpExampleActivity extends Activity {
         private static final String DEBUG_TAG = "HttpExample";
         private EditText urlText;
@@ -265,6 +321,7 @@ public class VoteActivity extends Activity {
             textView = (TextView) findViewById(R.id.myText);
         }
         **/
+        /**
         // When user clicks button, calls AsyncTask.
         // Before attempting to fetch the URL, makes sure that there is a network connection.
         public void myClickHandler(View view) {
@@ -301,8 +358,7 @@ public class VoteActivity extends Activity {
             protected void onPostExecute(String result) {
                 textView.setText(result);
             }
-        }
+        } **/
 
     }
 
-}

@@ -21,16 +21,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".VoteActivity"
             android:label="@string/title_activity_vote"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-
         <activity
             android:name=".Preferences"
-            android:label="Preferences">
+            android:label="Preferences" >
+        </activity>
+            android:name= "com.example.schei.votefit.ApplicationController"
+            android:allowBackup ="true"
+            android:icon="@drawable/ic_launcher"
+            android:theme="@style/AppTheme"
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 
