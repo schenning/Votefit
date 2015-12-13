@@ -20,7 +20,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="42dp"
         android:layout_marginStart="42dp"
-        android:layout_marginTop="88dp" />
+        android:layout_marginTop="88dp"
+        android:onClick="onButtonClick" />
 
     <Button
         android:layout_width="wrap_content"
@@ -31,7 +32,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="63dp"
-        android:layout_marginEnd="63dp" />
+        android:layout_marginEnd="63dp"
+        android:onClick="onButtonClick" />
 
     <TextView
         android:layout_width="wrap_content"

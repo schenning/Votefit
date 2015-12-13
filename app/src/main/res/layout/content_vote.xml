@@ -6,7 +6,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
     tools:showIn="@layout/activity_vote" tools:context="com.example.schei.votefit.VoteActivity">
 
     <TextView
@@ -14,4 +14,30 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/textView2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nein"
+        android:id="@+id/button3"
+        android:layout_below="@+id/image"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="42dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="88dp"
+        android:onClick="onButtonClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ja"
+        android:id="@+id/up"
+        android:layout_alignTop="@+id/button3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="63dp"
+        android:layout_marginEnd="63dp"
+        android:onClick="onButtonClick" />
+
 </RelativeLayout>

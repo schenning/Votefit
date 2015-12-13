@@ -48,6 +48,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -59,6 +60,9 @@ public class VoteActivity extends Activity {
     private boolean finished;
     SharedPreferences preferences;
     private List<String> photosQueue;
+    private List<Integer> photosQueTest;
+    int currentPhoto;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,138 +71,134 @@ public class VoteActivity extends Activity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         userID = preferences.getString("id", null);
-        getUserQueue(); //
-        getPhoto(5);
+        userID = "99";
+        /**photosQueue=new ArrayList<String>();
+        for (int i=1; i<=7; i++){
+            photosQueue.add(Integer.toString(i));
+            Log.i("test", photosQueue.get(i - 1));
+        }
+
+         **/
+        photosQueTest = new ArrayList<Integer>();
+        for (int k = 1; k<= 7; k++){
+            photosQueTest.add(k);
+
+        }
+
+        getPhoto(0);
+
+        //hvordan i f får man tak i userqueuen, glæmt av det.
+
+    }
 
 
-        test();
+    public void onButtonClick(View view){
+        switch(view.getId()){
+
+            case R.id.up:
+                Log.i("upb presssed", "ahah") ;
+                upVote((ArrayList<Integer>) photosQueTest) ;
+                //getPhoto(1);
+                break;
+
+            case R.id.button3:
+
+                Log.i("downbut pressed", "ahah") ;
+                //getPhoto(2);
+                downVote((ArrayList<Integer>) photosQueTest);
+                break;
+
+        }
 
 
     }
 
 
-    private void test () {
-        final String URL = "http://5.39.92.119/rms/viewed?id="+ "5" ;
 
-        // add the request object to the queue to be executed
-        Log.i("aplasdasdasdasd", req.toString());
-        //ApplicationController.getInstance().addToRequestQueue(req);
-        // Post params to be sent to the server
-        HashMap<String, String> params = new HashMap<String, String>();
-        // Just hardcode it to user 6
-        params.put("6", "up");
-        Log.i(" Jeg blir kjport", "sdsad");
-        JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            VolleyLog.v("Response1337:%n %s", response.toString(4));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
+
+
+    // OnClick function when upVote-button is pressed
+    public void upVote( ArrayList<Integer> lst){
+        currentPhoto = lst.get(0);
+        lst.remove(0);
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+        String url = "http://5.39.92.119/rms/viewed.php?id="+ userID;
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("!Form serverup", response);
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Erro13367r: ", error.getMessage());
+                //This code is executed if there is an error.
             }
-        });
-
-
-
-        ApplicationController.getInstance();
-
-    }
-    private void upVote(String id){
-
-
-
-        getPhoto(1);
-
-    }
-    private void downVote(String id){
-
-
-
-        getPhoto(1);
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                MyData.put("id", "" + currentPhoto); //Add the data you'd like to send to the server.
+                MyData.put("vote", "up");
+                Log.i("currentPhoto", "" + currentPhoto );
+                return MyData;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
+        getPhoto(lst.get(0));
+        //lst.remove(0);
 
     }
-    // Fetches userID's not seen pictures.
+
+    // Onclick function when downvote button is pressed
+    private void downVote( ArrayList <Integer> lst){
+        currentPhoto = lst.get(0);
+        lst.remove(0);
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+        String url = "http://5.39.92.119/rms/viewed.php?id="+ userID;
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //This code is executed if the server responds, whether or not the response contains data.
+                //The String 'response' contains the server's response.
+                Log.i("!Form server", response);
+            }
+        }, new Response.ErrorListener() { //Create an error listener to handle errors appropriately.
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                MyData.put("id", "" + currentPhoto); //Add the data you'd like to send to the server.
+                MyData.put("vote", "down");
+                Log.i("currentPhoto", "" + currentPhoto );
+                return MyData;
+            }
+        };
+        MyRequestQueue.add(MyStringRequest);
+        getPhoto(lst.get(0));
+        //lst.remove(0);
+
+
+
+
+    }
+    // Fetches userID's not seen pictures. // Why is this a void function??
+    // The person who wrote this is a terrible programmer
+
     private void getUserQueue() {
         urlString = "http://5.39.92.119/rms/view.php?id=" + userID;
         jsonProcess = new ProcessJSONa();
         jsonProcess.execute(urlString);
+
     }
-
-
-
-
-    /**
-    private void postData(String target, String vote) throws JSONException {
-        URL url;
-        URLConnection urlConn;
-        DataOutputStream printout;
-        DataInputStream input;
-        try {
-            url = new URL ("http://5.39.92.119/rms/view.php?id=" + userID);
-
-            try {
-                urlConn = url.openConnection();
-                urlConn.setDoInput (true);
-                urlConn.setDoOutput (true);
-                urlConn.setUseCaches (false);
-                urlConn.setRequestProperty("Content-Type","application/json");
-                urlConn.setRequestProperty("Host", "android.schoolportal.gr");
-                urlConn.connect();
-            }catch (IOException a){
-                a.printStackTrace();
-            }
-        }catch (MalformedURLException e){
-            e.printStackTrace();
-        }
-
-
-        //Create JSONObject here
-        JSONObject jsonParam = new JSONObject();
-        jsonParam.put("target", target);
-        jsonParam.put("vote", vote);
-
-        // Send POST output.
-        printout = new DataOutputStream(urlConn.getOutputStream ());
-        printout.write(URLEncoder.encode(jsonParam.toString(), "UTF-8"));
-        printout.flush ();
-        printout.close ();
-    }
-    **
-    /**
-    public void postData() {
-        // Create a new HttpClient and Post Header
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("5.39.92.119/rms/viewed?id=" + userID);
-
-        try {
-            // Add your data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("id", "12345"));
-            nameValuePairs.add(new BasicNameValuePair("stringdata", "Hi"));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            // Execute HTTP Post Request
-            HttpResponse response = httpclient.execute(httppost);
-
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-        }
-    }**/
-
 
 
     protected void setPhotosQueue(List<String> photosQueue){
         this.photosQueue = photosQueue;
-        System.out.println("queue er satt" + photosQueue);
+        System.out.println("queue er 123satt"  + photosQueue);
     }
 
     private void setFinished(boolean fin){
@@ -210,8 +210,9 @@ public class VoteActivity extends Activity {
     private DownloadImageTask getPhoto(int id) {
         urlString = "http://5.39.92.119/rms/pictures/" + id;
         //urlString = "https://s-media-cache-ak0.pinimg.com/736x/14/3b/34/143b34feb80859120ebe4a1f9a676c17.jpg";
-        DownloadImageTask imageTask = new DownloadImageTask(( ImageView ) findViewById(R.id.image));
+        DownloadImageTask imageTask = new DownloadImageTask(( ImageView) findViewById(R.id.image));
         imageTask.execute(urlString);
+
         return imageTask;
     }
 
