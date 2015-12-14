@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="where the bitches at"
+        android:text="test123"
         android:id="@+id/text"
         android:layout_below="@+id/button3"
         android:layout_centerHorizontal="true"
