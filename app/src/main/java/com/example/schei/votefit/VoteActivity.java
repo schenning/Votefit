@@ -71,8 +71,8 @@ public class VoteActivity extends Activity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         userID = preferences.getString("id", null);
-        userID = "99";
-        /**photosQueue=new ArrayList<String>();
+        userID = "123";
+        /** photosQueue=new ArrayList<String>();
         for (int i=1; i<=7; i++){
             photosQueue.add(Integer.toString(i));
             Log.i("test", photosQueue.get(i - 1));
@@ -86,6 +86,9 @@ public class VoteActivity extends Activity {
         }
 
         getPhoto(0);
+        getUserQueue();
+
+
 
         //hvordan i f får man tak i userqueuen, glæmt av det.
 
