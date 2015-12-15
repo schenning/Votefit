@@ -1,56 +1,29 @@
 package com.example.schei.votefit;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONObject;
 import org.json.JSONException;
-
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 
 public class VoteActivity extends Activity {
@@ -85,7 +58,7 @@ public class VoteActivity extends Activity {
 
         }
 
-        getPhoto(0);
+        getPhoto(1);
         getUserQueue();
 
 
@@ -111,6 +84,7 @@ public class VoteActivity extends Activity {
                 downVote((ArrayList<Integer>) photosQueTest);
                 break;
 
+
         }
 
 
@@ -122,10 +96,13 @@ public class VoteActivity extends Activity {
 
     // OnClick function when upVote-button is pressed
     public void upVote( ArrayList<Integer> lst){
-        currentPhoto = lst.get(0);
+
+        currentPhoto = lst.get(0) ;
         lst.remove(0);
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
-        String url = "http://5.39.92.119/rms/viewed.php?id="+ userID;
+
+            RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+            String url = "http://5.39.92.119/rms/viewed.php?id=" + userID;
+
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -148,6 +125,12 @@ public class VoteActivity extends Activity {
             }
         };
         MyRequestQueue.add(MyStringRequest);
+        if (lst.size() == 0){
+            Intent intent = new Intent(VoteActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        else
         getPhoto(lst.get(0));
         //lst.remove(0);
 
@@ -181,6 +164,12 @@ public class VoteActivity extends Activity {
             }
         };
         MyRequestQueue.add(MyStringRequest);
+        if (lst.size() == 0){
+            Intent intent = new Intent(VoteActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        else
         getPhoto(lst.get(0));
         //lst.remove(0);
 
