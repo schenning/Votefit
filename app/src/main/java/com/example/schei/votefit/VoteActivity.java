@@ -64,7 +64,20 @@ public class VoteActivity extends Activity {
 
 
         //hvordan i f får man tak i userqueuen, glæmt av det.
+        // hei henning x) skj;nner at du glaemmer av ting her
 
+    }
+
+    public void goToProfile(View view) {
+        Intent intent;
+        intent = new Intent(VoteActivity.this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToHelp(View view) {
+        Intent intent;
+        intent = new Intent(VoteActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
 
