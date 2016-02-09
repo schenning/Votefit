@@ -29,6 +29,8 @@ import java.util.Map;
 public class VoteActivity extends Activity {
     private String userID;
     public ProcessJSONa jsonProcess;
+    public ProcessJSONgetID jsonProcessID;
+
     private static String urlString;
     private boolean finished;
     SharedPreferences preferences;
@@ -43,8 +45,14 @@ public class VoteActivity extends Activity {
         setContentView(R.layout.activity_vote);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        userID = preferences.getString("id", null);
-        userID = "123";
+
+        if( preferences.contains("id")) {
+            userID = preferences.getString("id",null);
+            Log.i("containsid",userID);
+        }
+        if(userID == null) {
+            fetchUserID();
+        }
         /** photosQueue=new ArrayList<String>();
         for (int i=1; i<=7; i++){
             photosQueue.add(Integer.toString(i));
@@ -61,19 +69,17 @@ public class VoteActivity extends Activity {
         getPhoto(1);
         getUserQueue();
 
-
-
-        //hvordan i f får man tak i userqueuen, glæmt av det.
-        // hei henning x) skj;nner at du glaemmer av ting her
-
     }
+
+
+
+
 
     public void goToProfile(View view) {
         Intent intent;
         intent = new Intent(VoteActivity.this, ProfileActivity.class);
         startActivity(intent);
     }
-
     public void goToHelp(View view) {
         Intent intent;
         intent = new Intent(VoteActivity.this, MainActivity.class);
@@ -200,7 +206,6 @@ public class VoteActivity extends Activity {
 
     }
 
-
     protected void setPhotosQueue(List<String> photosQueue){
         this.photosQueue = photosQueue;
         System.out.println("queue er 123satt"  + photosQueue);
@@ -311,6 +316,65 @@ public class VoteActivity extends Activity {
         }
     }
 
+    // Handle ID
+    private void fetchUserID(){
+        urlString = "http://5.39.92.119/rms/new.php";
+        jsonProcessID = new ProcessJSONgetID();
+        jsonProcessID.execute(urlString);
+        //System.out.println("userID er satt til " + userID);
+    }
+    public void setID ( String id){
+        userID  = id;
+        System.out.println("setIDTest" + userID);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putString("id", userID);
+        edit.apply();
+        //Log.i("coNOTtter fetch",userID);
+
+    }
+    private class ProcessJSONgetID extends AsyncTask<String, Void, String>{
+        private String id;
+
+        protected String doInBackground(String... strings){
+            String stream = null;
+            String urlString = strings[0];
+
+            HTTPDataHandler hh = new HTTPDataHandler();
+            stream = hh.GetHTTPData(urlString);
+
+            // Return the data from specified url
+            return stream;
+        }
+
+        @Override
+        protected void onPostExecute(String stream){
+
+            //..........Process JSON DATA................
+            if(stream !=null){
+                try{
+                    // Get the full HTTP Data as JSONObject
+                    JSONObject reader= new JSONObject(stream);
+
+                    id = reader.getString("id");
+                    setID(id);
+
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+            // if statement end
+                        /*
+                Important in JSON DATA
+                -------------------------
+                * Square bracket ([) represents a JSON array
+                * Curly bracket ({) represents a JSON object
+                * JSON object contains key/value pairs
+                * Each key is a String and value may be different data types
+             */
+        } // onPostExecute() end
+    } // ProcessJSON class end
+
+
     /**
     public class HttpExampleActivity extends Activity {
         private static final String DEBUG_TAG = "HttpExample";
@@ -365,6 +429,7 @@ public class VoteActivity extends Activity {
                 textView.setText(result);
             }
         } **/
+
 
     }
 
