@@ -54,6 +54,13 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToHelp(View view) {
+        Intent intent;
+        intent = new Intent(ProfileActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+
     private void getRating(){
         urlString = "http://5.39.92.119/rms/profile.php?id="+userID;
         jsonProcess = new ProcessJSONp();
@@ -61,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void setRating (String ups, String downs){
-        String status = "opp: " + ups + " ned: " + downs;
+        String status = "VOTES UP: " + ups + " VOTES DOWN: " + downs;
         final TextView textView3 = (TextView) findViewById(R.id.textView3);
         textView3.setText(status);
 

@@ -44,7 +44,11 @@ public class MainActivity extends Activity{
 
         }
     }
-
+    public void goToProfile(View view) {
+        Intent intent;
+        intent = new Intent(MainActivity.this, ProfileActivity.class);
+        startActivity(intent);
+    }
 
     public void jumpToVote(View view) {
         Intent intent;

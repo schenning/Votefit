@@ -3,60 +3,55 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <ImageView
-    android:layout_width="300dp"
-    android:layout_height="400dp"
+    android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
     android:id="@+id/image"
-        android:scaleType="centerCrop"
-        android:layout_below="@+id/button5"
-        android:layout_alignLeft="@+id/button3"
-        android:layout_alignStart="@+id/button3" />
+    android:scaleType="centerCrop" />
 
 <Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Down"
-    android:id="@+id/button3"
-    android:layout_below="@+id/image"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_marginLeft="42dp"
-    android:layout_marginStart="42dp"
-    android:layout_marginTop="0dp"
-    android:layout_marginBottom="0dp"
-    android:onClick="onButtonClick" />
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Down"
+android:id="@+id/button3"
+    android:layout_alignParentBottom="true"
+
+    android:layout_alignLeft="@+id/image"
+android:layout_alignStart="@+id/image"
+android:onClick="onButtonClick"
+android:background="@drawable/downbutt"
+
+    />
 
 <Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Up"
-    android:id="@+id/up"
-    android:layout_alignTop="@+id/button3"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginRight="63dp"
-    android:layout_marginEnd="63dp"
-    android:onClick="onButtonClick" />
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Up"
+android:id="@+id/up"
+android:layout_alignTop="@+id/button3"
+android:layout_alignRight="@+id/image"
+android:layout_alignEnd="@+id/image"
+android:onClick="onButtonClick"
+android:background="@drawable/upbutt"
+    />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="my profile"
-        android:id="@+id/button5"
-        android:onClick="goToProfile"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/image"
-        android:layout_alignStart="@+id/image" />
+<Button
+   android:layout_width="wrap_content"
+   android:layout_height="wrap_content"
+   android:text="My profile"
+   android:id="@+id/button5"
+   android:onClick="goToProfile"
+   android:layout_alignParentTop="true"
+   android:layout_alignRight="@+id/image"
+   android:layout_alignEnd="@+id/image"
+    android:background="@drawable/profbutt"
+    />
 
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Help"
-        android:id="@+id/button7"
-        android:onClick="goToHelp"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/image"
-        android:layout_alignEnd="@+id/image" />
+
+
+
+
 
 </RelativeLayout>

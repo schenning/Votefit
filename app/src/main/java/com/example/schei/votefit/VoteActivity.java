@@ -80,11 +80,6 @@ public class VoteActivity extends Activity {
         intent = new Intent(VoteActivity.this, ProfileActivity.class);
         startActivity(intent);
     }
-    public void goToHelp(View view) {
-        Intent intent;
-        intent = new Intent(VoteActivity.this, MainActivity.class);
-        startActivity(intent);
-    }
 
 
     public void onButtonClick(View view){

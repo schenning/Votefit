@@ -32,7 +32,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="42dp"
         android:layout_marginEnd="42dp"
-        android:onClick="callIntent" />
+        android:onClick="goToProfile" />
 
     <TextView
         android:layout_width="wrap_content"
