@@ -38,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         userID = preferences.getString("id", null);
-        userID = "3";
+        userID = "11";
 
         int id = Integer.parseInt(userID);
 
@@ -68,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void setRating (String ups, String downs){
-        String status = "VOTES UP: " + ups + " VOTES DOWN: " + downs;
+        String status = ups + " ups - " + downs + " downs";
         final TextView textView3 = (TextView) findViewById(R.id.textView3);
         textView3.setText(status);
 

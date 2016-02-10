@@ -1,6 +1,7 @@
 package com.example.schei.votefit;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -11,6 +12,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,9 +24,11 @@ import org.json.JSONObject;
 import org.json.JSONException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 
 public class VoteActivity extends Activity {
@@ -50,37 +55,34 @@ public class VoteActivity extends Activity {
             userID = preferences.getString("id",null);
             Log.i("containsid",userID);
         }
+
         if(userID == null) {
             fetchUserID();
         }
-        /** photosQueue=new ArrayList<String>();
-        for (int i=1; i<=7; i++){
-            photosQueue.add(Integer.toString(i));
-            Log.i("test", photosQueue.get(i - 1));
-        }
+        //userID = "11";
 
-         **/
+
         photosQueTest = new ArrayList<Integer>();
-        for (int k = 1; k<= 7; k++){
-            photosQueTest.add(k);
-
+        for (int k = 1; k<= 33; k++){
+            if (k!= 11) {
+                photosQueTest.add(k);
+            }
         }
+        long seed = System.nanoTime();
+        Collections.shuffle(photosQueTest, new Random(seed));
 
-        getPhoto(1);
+        getPhoto(photosQueTest.get(0));
+        photosQueTest.remove(0);
+
         getUserQueue();
 
     }
-
-
-
-
 
     public void goToProfile(View view) {
         Intent intent;
         intent = new Intent(VoteActivity.this, ProfileActivity.class);
         startActivity(intent);
     }
-
 
     public void onButtonClick(View view){
         switch(view.getId()){
@@ -104,15 +106,12 @@ public class VoteActivity extends Activity {
 
     }
 
-
-
-
-
     // OnClick function when upVote-button is pressed
     public void upVote( ArrayList<Integer> lst){
-
-        currentPhoto = lst.get(0) ;
-        lst.remove(0);
+        if( lst.size() > 0 ){
+            currentPhoto = lst.get(0);
+            lst.remove(0);
+        }
 
             RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
             String url = "http://5.39.92.119/rms/viewed.php?id=" + userID;
@@ -143,6 +142,14 @@ public class VoteActivity extends Activity {
             Intent intent = new Intent(VoteActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+
+            Context context = getApplicationContext();
+            CharSequence text = "Sorry! No more pictures to show";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
         }
         else
         getPhoto(lst.get(0));
@@ -152,8 +159,10 @@ public class VoteActivity extends Activity {
 
     // Onclick function when downvote button is pressed
     private void downVote( ArrayList <Integer> lst){
-        currentPhoto = lst.get(0);
-        lst.remove(0);
+        if( lst.size() > 0 ){
+            currentPhoto = lst.get(0);
+            lst.remove(0);
+        }
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
         String url = "http://5.39.92.119/rms/viewed.php?id="+ userID;
         StringRequest MyStringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -182,6 +191,13 @@ public class VoteActivity extends Activity {
             Intent intent = new Intent(VoteActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+
+            Context context = getApplicationContext();
+            CharSequence text = "Sorry! No more pictures to show";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
         else
         getPhoto(lst.get(0));

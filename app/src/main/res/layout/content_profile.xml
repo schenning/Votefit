@@ -8,8 +8,8 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_profile"
-    tools:context="com.example.schei.votefit.ProfileActivity">
-
+    tools:context="com.example.schei.votefit.ProfileActivity"
+>
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
