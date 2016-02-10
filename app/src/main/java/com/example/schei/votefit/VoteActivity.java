@@ -62,6 +62,8 @@ public class VoteActivity extends Activity {
         //userID = "11";
 
 
+
+
         photosQueTest = new ArrayList<Integer>();
         for (int k = 1; k<= 33; k++){
             if (k!= 11) {
